@@ -1,0 +1,103 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Merriweather:wght@400;700&display=swap');
+@import "tailwindcss";
+
+:root {
+  --foreground-rgb: 109, 104, 117;
+  --background-rgb: 248, 249, 250;
+}
+
+/* Reset margins and paddings */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: rgb(var(--background-rgb));
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .card-hover {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .card-hover:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+  }
+
+  .gradient-text {
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    background-image: linear-gradient(to right, #2a9d8f, #264653);
+  }
+
+  .gradient-bg {
+    background-image: linear-gradient(135deg, #264653 0%, #2a9d8f 100%);
+  }
+
+  /* Fix for light blue buttons with invisible text */
+  button, a {
+    color: inherit;
+    font-weight: 500;
+  }
+
+  button.bg-blue-100, button.bg-blue-200, button.bg-blue-300, button.bg-blue-400, button.bg-blue-500 {
+    color: #1e293b !important; /* Force dark text on light blue backgrounds */
+    font-weight: 700 !important;
+    text-shadow: 0 0 1px rgba(255, 255, 255, 0.5) !important;
+  }
+
+  /* Ensure spans inside buttons also have visible text */
+  button.bg-blue-100 span,
+  button.bg-blue-200 span,
+  button.bg-blue-300 span,
+  button.bg-blue-400 span,
+  button.bg-blue-500 span {
+    color: #1e293b !important; /* Force dark text */
+    font-weight: 700 !important;
+  }
+
+  .shadow-soft {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .shadow-hover {
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .section-padding {
+    padding: 4rem 0;
+  }
+
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: #2a9d8f #f8f9fa;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: #f8f9fa;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #2a9d8f;
+    border-radius: 20px;
+  }
+}
