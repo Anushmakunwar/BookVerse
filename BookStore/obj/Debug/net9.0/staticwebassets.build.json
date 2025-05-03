@@ -1,0 +1,702 @@
+{
+  "Version": 1,
+  "Hash": "HWl+cXHT5XS/yd50n/gegYOyB5n8PfNABICGnQ5tsGc=",
+  "Source": "Bookstore",
+  "BasePath": "_content/Bookstore",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "Bookstore\\wwwroot",
+      "Source": "Bookstore",
+      "ContentRoot": "E:\\NyxusByte\\Courseworks\\ThirdYearDotNet\\2025\\Aryan Pudasaini\\Second Milestone\\Code\\BookVerse\\BookStore\\wwwroot\\",
+      "BasePath": "_content/Bookstore",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "E:\\NyxusByte\\Courseworks\\ThirdYearDotNet\\2025\\Aryan Pudasaini\\Second Milestone\\Code\\BookVerse\\BookStore\\obj\\Debug\\net9.0\\compressed\\ns96q0vcb9-iydse4bs0l.gz",
+      "SourceId": "Bookstore",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\NyxusByte\\Courseworks\\ThirdYearDotNet\\2025\\Aryan Pudasaini\\Second Milestone\\Code\\BookVerse\\BookStore\\obj\\Debug\\net9.0\\compressed\\",
+      "BasePath": "_content/Bookstore",
+      "RelativePath": "swagger-ui/index#[.{fingerprint=iydse4bs0l}]?.html.gz",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "E:\\NyxusByte\\Courseworks\\ThirdYearDotNet\\2025\\Aryan Pudasaini\\Second Milestone\\Code\\BookVerse\\BookStore\\wwwroot\\swagger-ui\\index.html",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "Fingerprint": "cmf5a37lh2",
+      "Integrity": "VMTBQYcSShxoGC7iVWL/L8304m3hMcib/Kc42YTGfBs=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "E:\\NyxusByte\\Courseworks\\ThirdYearDotNet\\2025\\Aryan Pudasaini\\Second Milestone\\Code\\BookVerse\\BookStore\\wwwroot\\swagger-ui\\index.html"
+    },
+    {
+      "Identity": "E:\\NyxusByte\\Courseworks\\ThirdYearDotNet\\2025\\Aryan Pudasaini\\Second Milestone\\Code\\BookVerse\\BookStore\\obj\\Debug\\net9.0\\compressed\\qat7spxqxv-urch9bi33j.gz",
+      "SourceId": "Bookstore",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\NyxusByte\\Courseworks\\ThirdYearDotNet\\2025\\Aryan Pudasaini\\Second Milestone\\Code\\BookVerse\\BookStore\\obj\\Debug\\net9.0\\compressed\\",
+      "BasePath": "_content/Bookstore",
+      "RelativePath": "swagger-ui/custom#[.{fingerprint=urch9bi33j}]?.css.gz",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "E:\\NyxusByte\\Courseworks\\ThirdYearDotNet\\2025\\Aryan Pudasaini\\Second Milestone\\Code\\BookVerse\\BookStore\\wwwroot\\swagger-ui\\custom.css",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "Fingerprint": "cpnpzaioag",
+      "Integrity": "QM/8X22QJiYEx4+Z551/qbUqkWzONWNLNbLS1qIMjBw=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "E:\\NyxusByte\\Courseworks\\ThirdYearDotNet\\2025\\Aryan Pudasaini\\Second Milestone\\Code\\BookVerse\\BookStore\\wwwroot\\swagger-ui\\custom.css"
+    },
+    {
+      "Identity": "E:\\NyxusByte\\Courseworks\\ThirdYearDotNet\\2025\\Aryan Pudasaini\\Second Milestone\\Code\\BookVerse\\BookStore\\wwwroot\\swagger-ui\\custom.css",
+      "SourceId": "Bookstore",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\NyxusByte\\Courseworks\\ThirdYearDotNet\\2025\\Aryan Pudasaini\\Second Milestone\\Code\\BookVerse\\BookStore\\wwwroot\\",
+      "BasePath": "_content/Bookstore",
+      "RelativePath": "swagger-ui/custom#[.{fingerprint}]?.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "urch9bi33j",
+      "Integrity": "6u/wQCMmtgAJ4jXO/4dWmFlPMfACS4CLSDJRMnpPW2w=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\swagger-ui\\custom.css"
+    },
+    {
+      "Identity": "E:\\NyxusByte\\Courseworks\\ThirdYearDotNet\\2025\\Aryan Pudasaini\\Second Milestone\\Code\\BookVerse\\BookStore\\wwwroot\\swagger-ui\\index.html",
+      "SourceId": "Bookstore",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\NyxusByte\\Courseworks\\ThirdYearDotNet\\2025\\Aryan Pudasaini\\Second Milestone\\Code\\BookVerse\\BookStore\\wwwroot\\",
+      "BasePath": "_content/Bookstore",
+      "RelativePath": "swagger-ui/index#[.{fingerprint}]?.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "iydse4bs0l",
+      "Integrity": "qkPuOXCaM6Y71wxK7N40Rwiev+MuRc3GqX1xcnimdw4=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\swagger-ui\\index.html"
+    }
+  ],
+  "Endpoints": [
+    {
+      "Route": "swagger-ui/custom.css",
+      "AssetFile": "E:\\NyxusByte\\Courseworks\\ThirdYearDotNet\\2025\\Aryan Pudasaini\\Second Milestone\\Code\\BookVerse\\BookStore\\obj\\Debug\\net9.0\\compressed\\qat7spxqxv-urch9bi33j.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.002881844380"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "346"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"QM/8X22QJiYEx4+Z551/qbUqkWzONWNLNbLS1qIMjBw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 14 Apr 2025 05:28:37 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"6u/wQCMmtgAJ4jXO/4dWmFlPMfACS4CLSDJRMnpPW2w=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-6u/wQCMmtgAJ4jXO/4dWmFlPMfACS4CLSDJRMnpPW2w="
+        }
+      ]
+    },
+    {
+      "Route": "swagger-ui/custom.css",
+      "AssetFile": "E:\\NyxusByte\\Courseworks\\ThirdYearDotNet\\2025\\Aryan Pudasaini\\Second Milestone\\Code\\BookVerse\\BookStore\\wwwroot\\swagger-ui\\custom.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "846"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"6u/wQCMmtgAJ4jXO/4dWmFlPMfACS4CLSDJRMnpPW2w=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 14 Apr 2025 05:28:37 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-6u/wQCMmtgAJ4jXO/4dWmFlPMfACS4CLSDJRMnpPW2w="
+        }
+      ]
+    },
+    {
+      "Route": "swagger-ui/custom.css.gz",
+      "AssetFile": "E:\\NyxusByte\\Courseworks\\ThirdYearDotNet\\2025\\Aryan Pudasaini\\Second Milestone\\Code\\BookVerse\\BookStore\\obj\\Debug\\net9.0\\compressed\\qat7spxqxv-urch9bi33j.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "346"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"QM/8X22QJiYEx4+Z551/qbUqkWzONWNLNbLS1qIMjBw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 14 Apr 2025 05:28:37 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-QM/8X22QJiYEx4+Z551/qbUqkWzONWNLNbLS1qIMjBw="
+        }
+      ]
+    },
+    {
+      "Route": "swagger-ui/custom.urch9bi33j.css",
+      "AssetFile": "E:\\NyxusByte\\Courseworks\\ThirdYearDotNet\\2025\\Aryan Pudasaini\\Second Milestone\\Code\\BookVerse\\BookStore\\obj\\Debug\\net9.0\\compressed\\qat7spxqxv-urch9bi33j.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.002881844380"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "346"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"QM/8X22QJiYEx4+Z551/qbUqkWzONWNLNbLS1qIMjBw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 14 Apr 2025 05:28:37 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"6u/wQCMmtgAJ4jXO/4dWmFlPMfACS4CLSDJRMnpPW2w=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "urch9bi33j"
+        },
+        {
+          "Name": "label",
+          "Value": "swagger-ui/custom.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-6u/wQCMmtgAJ4jXO/4dWmFlPMfACS4CLSDJRMnpPW2w="
+        }
+      ]
+    },
+    {
+      "Route": "swagger-ui/custom.urch9bi33j.css",
+      "AssetFile": "E:\\NyxusByte\\Courseworks\\ThirdYearDotNet\\2025\\Aryan Pudasaini\\Second Milestone\\Code\\BookVerse\\BookStore\\wwwroot\\swagger-ui\\custom.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "846"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"6u/wQCMmtgAJ4jXO/4dWmFlPMfACS4CLSDJRMnpPW2w=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 14 Apr 2025 05:28:37 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "urch9bi33j"
+        },
+        {
+          "Name": "label",
+          "Value": "swagger-ui/custom.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-6u/wQCMmtgAJ4jXO/4dWmFlPMfACS4CLSDJRMnpPW2w="
+        }
+      ]
+    },
+    {
+      "Route": "swagger-ui/custom.urch9bi33j.css.gz",
+      "AssetFile": "E:\\NyxusByte\\Courseworks\\ThirdYearDotNet\\2025\\Aryan Pudasaini\\Second Milestone\\Code\\BookVerse\\BookStore\\obj\\Debug\\net9.0\\compressed\\qat7spxqxv-urch9bi33j.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "346"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"QM/8X22QJiYEx4+Z551/qbUqkWzONWNLNbLS1qIMjBw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 14 Apr 2025 05:28:37 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "urch9bi33j"
+        },
+        {
+          "Name": "label",
+          "Value": "swagger-ui/custom.css.gz"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-QM/8X22QJiYEx4+Z551/qbUqkWzONWNLNbLS1qIMjBw="
+        }
+      ]
+    },
+    {
+      "Route": "swagger-ui/index.html",
+      "AssetFile": "E:\\NyxusByte\\Courseworks\\ThirdYearDotNet\\2025\\Aryan Pudasaini\\Second Milestone\\Code\\BookVerse\\BookStore\\obj\\Debug\\net9.0\\compressed\\ns96q0vcb9-iydse4bs0l.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.001650165017"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "605"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"VMTBQYcSShxoGC7iVWL/L8304m3hMcib/Kc42YTGfBs=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 14 Apr 2025 05:28:03 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"qkPuOXCaM6Y71wxK7N40Rwiev+MuRc3GqX1xcnimdw4=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-qkPuOXCaM6Y71wxK7N40Rwiev+MuRc3GqX1xcnimdw4="
+        }
+      ]
+    },
+    {
+      "Route": "swagger-ui/index.html",
+      "AssetFile": "E:\\NyxusByte\\Courseworks\\ThirdYearDotNet\\2025\\Aryan Pudasaini\\Second Milestone\\Code\\BookVerse\\BookStore\\wwwroot\\swagger-ui\\index.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1472"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"qkPuOXCaM6Y71wxK7N40Rwiev+MuRc3GqX1xcnimdw4=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 14 Apr 2025 05:28:03 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-qkPuOXCaM6Y71wxK7N40Rwiev+MuRc3GqX1xcnimdw4="
+        }
+      ]
+    },
+    {
+      "Route": "swagger-ui/index.html.gz",
+      "AssetFile": "E:\\NyxusByte\\Courseworks\\ThirdYearDotNet\\2025\\Aryan Pudasaini\\Second Milestone\\Code\\BookVerse\\BookStore\\obj\\Debug\\net9.0\\compressed\\ns96q0vcb9-iydse4bs0l.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "605"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"VMTBQYcSShxoGC7iVWL/L8304m3hMcib/Kc42YTGfBs=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 14 Apr 2025 05:28:03 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-VMTBQYcSShxoGC7iVWL/L8304m3hMcib/Kc42YTGfBs="
+        }
+      ]
+    },
+    {
+      "Route": "swagger-ui/index.iydse4bs0l.html",
+      "AssetFile": "E:\\NyxusByte\\Courseworks\\ThirdYearDotNet\\2025\\Aryan Pudasaini\\Second Milestone\\Code\\BookVerse\\BookStore\\obj\\Debug\\net9.0\\compressed\\ns96q0vcb9-iydse4bs0l.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.001650165017"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "605"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"VMTBQYcSShxoGC7iVWL/L8304m3hMcib/Kc42YTGfBs=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 14 Apr 2025 05:28:03 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"qkPuOXCaM6Y71wxK7N40Rwiev+MuRc3GqX1xcnimdw4=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "iydse4bs0l"
+        },
+        {
+          "Name": "label",
+          "Value": "swagger-ui/index.html"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-qkPuOXCaM6Y71wxK7N40Rwiev+MuRc3GqX1xcnimdw4="
+        }
+      ]
+    },
+    {
+      "Route": "swagger-ui/index.iydse4bs0l.html",
+      "AssetFile": "E:\\NyxusByte\\Courseworks\\ThirdYearDotNet\\2025\\Aryan Pudasaini\\Second Milestone\\Code\\BookVerse\\BookStore\\wwwroot\\swagger-ui\\index.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1472"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"qkPuOXCaM6Y71wxK7N40Rwiev+MuRc3GqX1xcnimdw4=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 14 Apr 2025 05:28:03 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "iydse4bs0l"
+        },
+        {
+          "Name": "label",
+          "Value": "swagger-ui/index.html"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-qkPuOXCaM6Y71wxK7N40Rwiev+MuRc3GqX1xcnimdw4="
+        }
+      ]
+    },
+    {
+      "Route": "swagger-ui/index.iydse4bs0l.html.gz",
+      "AssetFile": "E:\\NyxusByte\\Courseworks\\ThirdYearDotNet\\2025\\Aryan Pudasaini\\Second Milestone\\Code\\BookVerse\\BookStore\\obj\\Debug\\net9.0\\compressed\\ns96q0vcb9-iydse4bs0l.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "605"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"VMTBQYcSShxoGC7iVWL/L8304m3hMcib/Kc42YTGfBs=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 14 Apr 2025 05:28:03 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "iydse4bs0l"
+        },
+        {
+          "Name": "label",
+          "Value": "swagger-ui/index.html.gz"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-VMTBQYcSShxoGC7iVWL/L8304m3hMcib/Kc42YTGfBs="
+        }
+      ]
+    }
+  ]
+}

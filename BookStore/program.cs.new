@@ -1,0 +1,208 @@
+using BookStore.Data;
+using BookStore.DatabaseContext;
+using BookStore.DTOs.Book;
+using BookStore.Entities;
+using BookStore.Mapping;
+using BookStore.Repository.Book;
+using BookStore.Repository.BookMark;
+using BookStore.Repository.User;
+using BookStore.Repository.CartItem;
+using BookStore.Services.Book;
+using BookStore.Services.BookMark;
+using BookStore.Services.User;
+using BookStore.Services.CartItem;
+using BookStore.Services.FileUpload;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+
+// Make the Program.cs file async
+async Task Main(string[] args)
+{
+    var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        // Configure JSON serialization options
+        options.JsonSerializerOptions.PropertyNamingPolicy = null; // Use property names as-is
+        options.JsonSerializerOptions.WriteIndented = true; // Pretty print JSON in development
+    });
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddDbContext<BookStoreDBContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("BookStoreDB")));
+
+// Add Identity services
+builder.Services.AddIdentity<User, IdentityRole>(options =>
+{
+    // Password settings
+    options.Password.RequireDigit = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequiredLength = 6;
+
+    // User settings
+    options.User.RequireUniqueEmail = true;
+})
+.AddEntityFrameworkStores<BookStoreDBContext>()
+.AddDefaultTokenProviders();
+
+// Add DbSeeder service
+builder.Services.AddScoped<DbSeeder>();
+
+// Register services
+builder.Services.AddAutoMapper(typeof(BookStoreProfile));
+builder.Services.AddScoped<IBookRepository, BookRepository>();
+builder.Services.AddScoped<IBookService, BookService>();
+
+builder.Services.AddAutoMapper(typeof(UserProfile));
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+
+builder.Services.AddScoped<IBookMarkRepository, BookmarkRepository>();
+builder.Services.AddScoped<IBookMarkService, BookmarkService>();
+
+// Register Cart services
+builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
+builder.Services.AddScoped<ICartService, CartService>();
+
+// Register FileUpload service
+builder.Services.AddScoped<IFileUploadService, FileUploadService>();
+
+// Configure CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", builder =>
+    {
+        builder.WithOrigins("http://localhost:3000", "http://localhost:3001")
+               .AllowAnyMethod()
+               .AllowAnyHeader()
+               .AllowCredentials();
+    });
+});
+
+// Configure Cookie Authentication
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.Cookie.HttpOnly = true;
+    options.ExpireTimeSpan = TimeSpan.FromHours(24);
+    options.SlidingExpiration = true;
+    options.LoginPath = "/api/auth/login";
+    options.LogoutPath = "/api/auth/logout";
+    options.AccessDeniedPath = "/api/auth/access-denied";
+    options.Events.OnRedirectToLogin = context =>
+    {
+        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+        return Task.CompletedTask;
+    };
+    options.Events.OnRedirectToAccessDenied = context =>
+    {
+        context.Response.StatusCode = StatusCodes.Status403Forbidden;
+        return Task.CompletedTask;
+    };
+});
+
+builder.Services.AddAuthorization();
+
+// Configure Swagger
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo {
+        Title = "BookStore API",
+        Version = "v1",
+        Description = "API for BookStore application",
+        Contact = new OpenApiContact
+        {
+            Name = "BookStore Team",
+            Email = "admin@bookstore.com"
+        }
+    });
+});
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+
+    // Add middleware to serve static files
+    app.UseStaticFiles();
+
+    // Add middleware for logging authentication information
+    app.Use(async (context, next) =>
+    {
+        // Log authentication status
+        Console.WriteLine($"Request path: {context.Request.Path}");
+        Console.WriteLine($"Is authenticated: {context.User?.Identity?.IsAuthenticated}");
+
+        if (context.User?.Identity?.IsAuthenticated == true)
+        {
+            Console.WriteLine($"User ID: {context.User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value}");
+            Console.WriteLine($"User email: {context.User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value}");
+            Console.WriteLine($"User role: {context.User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value}");
+        }
+
+        // Continue the pipeline without intercepting the response
+        await next();
+
+        // Log authentication failures after the response has been processed
+        if (context.Response.StatusCode == 401)
+        {
+            Console.WriteLine("Authentication failed with status code 401");
+            Console.WriteLine("Response headers:");
+            foreach (var header in context.Response.Headers)
+            {
+                Console.WriteLine($"  {header.Key}: {string.Join(",", header.Value.ToArray())}");
+            }
+        }
+    });
+}
+else
+{
+    app.UseHttpsRedirection();
+}
+
+// Enable CORS - must be before auth middleware
+app.UseCors("AllowFrontend");
+
+// Important: UseAuthentication must come before UseAuthorization
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.MapControllers();
+
+// Seed the database
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var seeder = services.GetRequiredService<DbSeeder>();
+        await seeder.SeedAsync();
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred while seeding the database.");
+    }
+}
+
+    app.Run();
+}
+
+// Create admin user
+if (args.Length > 0 && args[0] == "--create-admin")
+{
+    BookStore.CreateAdminUser.CreateAdminUserAsync(args).GetAwaiter().GetResult();
+}
+else
+{
+    // Run the async Main method
+    Main(args).GetAwaiter().GetResult();
+}

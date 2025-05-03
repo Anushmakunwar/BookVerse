@@ -1,0 +1,31 @@
+@BookStore_HostAddress = http://localhost:5261
+
+### Login to get token
+POST {{BookStore_HostAddress}}/api/Auth/login
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email": "user@example.com",
+  "password": "YourPassword123"
+}
+
+### Get Bookmarks (Protected Route)
+GET {{BookStore_HostAddress}}/api/Bookmark
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJ1c2VyQGV4YW1wbGUuY29tIiwicm9sZSI6Ik1lbWJlciIsImp0aSI6IjEyMzQ1Njc4OTAiLCJuYmYiOjE3MTM2MjQwMDAsImV4cCI6MTcxMzYyNzYwMCwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo1MjYxIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo1MjYxIn0.Yx_KGe3IwQwLPRB8A5hW9ZZzNJeVn-hRXbwLJDFjYYY
+Accept: application/json
+
+### Register a new user
+POST {{BookStore_HostAddress}}/api/Auth/register
+Content-Type: application/json
+Accept: application/json
+
+{
+  "fullName": "Test User",
+  "email": "user@example.com",
+  "password": "YourPassword123",
+  "address": "123 Test St",
+  "phone": "123-456-7890"
+}
+
+###

@@ -1,0 +1,40 @@
+/* Custom styles for Swagger UI */
+.swagger-ui .topbar {
+    background-color: #1a365d;
+}
+
+.swagger-ui .info .title {
+    color: #2c5282;
+}
+
+.swagger-ui .opblock.opblock-get {
+    background: rgba(97, 175, 254, 0.1);
+}
+
+.swagger-ui .opblock.opblock-post {
+    background: rgba(73, 204, 144, 0.1);
+}
+
+.swagger-ui .opblock.opblock-put {
+    background: rgba(252, 161, 48, 0.1);
+}
+
+.swagger-ui .opblock.opblock-delete {
+    background: rgba(249, 62, 62, 0.1);
+}
+
+.swagger-ui .btn.execute {
+    background-color: #3182ce;
+}
+
+.swagger-ui .btn.authorize {
+    background-color: #38a169;
+    color: #fff;
+}
+
+/* Fix for potential rendering issues */
+.swagger-ui .response-col_description__inner div.markdown, 
+.swagger-ui .opblock-description-wrapper div.markdown, 
+.swagger-ui .opblock-external-docs-wrapper div.markdown {
+    word-break: break-word;
+}

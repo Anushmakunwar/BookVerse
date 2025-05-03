@@ -1,0 +1,80 @@
+using BookStore.Core.Common;
+using BookStore.DTOs.Book;
+
+namespace BookStore.Services.Book;
+
+/// <summary>
+/// Book statistics DTO
+/// </summary>
+public class BookStatsDto
+{
+    public int TotalBooks { get; set; }
+    public int TotalSold { get; set; }
+    public int TotalInStock { get; set; }
+    public List<TopSellingBookDto> TopSellingBooks { get; set; } = new List<TopSellingBookDto>();
+}
+
+/// <summary>
+/// Top selling book DTO
+/// </summary>
+public class TopSellingBookDto
+{
+    public int Id { get; set; }
+    public string Title { get; set; } = string.Empty;
+    public int TotalSold { get; set; }
+}
+
+/// <summary>
+/// Service interface for book operations
+/// </summary>
+public interface IBookService
+{
+    /// <summary>
+    /// Gets a paginated list of books
+    /// </summary>
+    Task<PaginatedResult<BookDto>> GetBooksAsync(int page, int size);
+
+    /// <summary>
+    /// Gets a book by ID
+    /// </summary>
+    Task<Result<BookDetailDto>> GetBookDetailAsync(int id);
+
+    /// <summary>
+    /// Searches for books based on various criteria
+    /// </summary>
+    Task<Result<List<BookDto>>> SearchBooksAsync(
+        string? keyword,
+        string? sortBy,
+        string? genre,
+        decimal? minPrice,
+        decimal? maxPrice,
+        string? author = null,
+        bool? inStock = null,
+        bool? inLibrary = null,
+        float? minRating = null,
+        string? language = null,
+        string? format = null,
+        string? publisher = null,
+        string? isbn = null
+    );
+
+    /// <summary>
+    /// Adds a new book
+    /// </summary>
+    Task<Result<BookDto>> AddBookAsync(BookCreateDto bookDto);
+
+    /// <summary>
+    /// Updates an existing book
+    /// </summary>
+    Task<Result<BookDto>> UpdateBookAsync(int id, BookCreateDto bookDto);
+
+    /// <summary>
+    /// Deletes a book
+    /// </summary>
+    Task<Result> DeleteBookAsync(int id);
+    
+    /// <summary>
+    /// Gets book statistics for the admin dashboard
+    /// </summary>
+    Task<BookStatsDto> GetBookStatsAsync();
+}
