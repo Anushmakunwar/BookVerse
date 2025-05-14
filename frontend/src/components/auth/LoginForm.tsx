@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { FaLock, FaEnvelope, FaSpinner } from 'react-icons/fa';
+import { FaLock, FaEnvelope, FaSpinner, FaQuestionCircle } from 'react-icons/fa';
 import { useLogin } from '@/lib/react-query/hooks/useAuth';
 import { routes } from '@/lib/routes';
 
@@ -11,20 +11,20 @@ const LoginForm: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
-  
+
   const loginMutation = useLogin();
   const isLoading = loginMutation.isPending;
-  
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!email || !password) {
       return;
     }
-    
+
     loginMutation.mutate({ email, password });
   };
-  
+
   return (
     <div className="bg-white rounded-2xl shadow-soft p-8 md:p-10">
       {/* Header */}
@@ -62,7 +62,7 @@ const LoginForm: React.FC = () => {
               />
             </div>
           </div>
-          
+
           <div>
             <label htmlFor="password" className="block text-sm font-medium text-neutral-dark mb-1">
               Password
@@ -85,27 +85,20 @@ const LoginForm: React.FC = () => {
               />
             </div>
           </div>
-          
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <input
-                id="remember-me"
-                name="remember-me"
-                type="checkbox"
-                checked={rememberMe}
-                onChange={(e) => setRememberMe(e.target.checked)}
-                className="h-4 w-4 text-primary focus:ring-primary border-neutral-light rounded"
-              />
-              <label htmlFor="remember-me" className="ml-2 block text-sm text-neutral-dark">
-                Remember me
-              </label>
-            </div>
-            
-            <div className="text-sm">
-              <Link href="/forgot-password" className="text-primary hover:text-primary-dark font-medium">
-                Forgot your password?
-              </Link>
-            </div>
+
+
+          <div className="flex items-center">
+            <input
+              id="remember-me"
+              name="remember-me"
+              type="checkbox"
+              checked={rememberMe}
+              onChange={(e) => setRememberMe(e.target.checked)}
+              className="h-4 w-4 text-primary focus:ring-primary border-neutral-light rounded"
+            />
+            <label htmlFor="remember-me" className="ml-2 block text-sm text-neutral-dark">
+              Remember me
+            </label>
           </div>
         </div>
 
@@ -130,7 +123,7 @@ const LoginForm: React.FC = () => {
           )}
         </button>
       </form>
-      
+
       {/* Footer Links */}
       <div className="mt-8 text-center">
         <p className="text-neutral">
@@ -139,7 +132,16 @@ const LoginForm: React.FC = () => {
             Create one now
           </Link>
         </p>
-        <div className="mt-2">
+        <div className="mt-4">
+          <Link
+            href={routes.auth.forgotPassword}
+            className="inline-flex items-center justify-center px-4 py-2 border border-primary/30 rounded-lg text-primary hover:text-primary-dark hover:border-primary font-medium transition-all"
+          >
+            <FaQuestionCircle className="mr-2" />
+            Forgot your password?
+          </Link>
+        </div>
+        <div className="mt-3">
           <Link href={routes.home} className="text-neutral-dark hover:text-primary text-sm transition-colors">
             Continue as guest
           </Link>

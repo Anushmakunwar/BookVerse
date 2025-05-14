@@ -88,15 +88,15 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               <ul className="space-y-3">
                 <li className="flex items-start">
                   <FaMapMarkerAlt className="mt-1 mr-3 text-accent" />
-                  <span>123 Book Street, Reading City, RC 12345</span>
+                  <span>Bouddha Kathmandu, Nepal</span>
                 </li>
                 <li className="flex items-center">
                   <FaPhone className="mr-3 text-accent" />
-                  <span>+1 (555) 123-4567</span>
+                  <span>+977-9844188522</span>
                 </li>
                 <li className="flex items-center">
                   <FaEnvelope className="mr-3 text-accent" />
-                  <span>contact@bookverse.com</span>
+                  <span>pudasainiaryan03@gmail.com</span>
                 </li>
               </ul>
             </div>

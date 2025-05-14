@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { FaBook, FaUsers, FaShoppingCart, FaTachometerAlt, FaSignOutAlt, FaBullhorn, FaChartLine } from 'react-icons/fa';
 import { useCurrentUser, useIsAdmin, useLogout } from '@/lib/react-query/hooks/useAuth';
 import { routes } from '@/lib/routes';
+import { useUI } from '@/hooks/useStore';
 
 /**
  * AdminLayout props interface
@@ -32,6 +33,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   const { data: userData } = useCurrentUser();
   const isAdmin = useIsAdmin();
   const logoutMutation = useLogout();
+  const { hideGlobalLoading } = useUI();
 
   // Redirect if not admin
   useEffect(() => {
@@ -39,6 +41,16 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
       router.push(routes.home);
     }
   }, [userData, isAdmin, router]);
+
+  // Hide loading overlay when admin layout is mounted
+  useEffect(() => {
+    // Small delay to ensure the page is rendered
+    const timer = setTimeout(() => {
+      hideGlobalLoading();
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [hideGlobalLoading]);
 
   // Handle logout
   const handleLogout = async () => {

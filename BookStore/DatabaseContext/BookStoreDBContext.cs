@@ -20,6 +20,7 @@ public class BookStoreDBContext : IdentityDbContext<Entities.User, IdentityRole,
     public DbSet<Entities.OrderItem> OrderItems { get; set; }
     public DbSet<Entities.Review> Reviews { get; set; }
     public DbSet<Entities.Announcement> Announcements { get; set; }
+    public DbSet<Entities.OTP> OTPs { get; set; }
 
 
 

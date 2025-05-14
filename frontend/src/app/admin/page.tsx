@@ -36,6 +36,10 @@ export default function AdminDashboard() {
     try {
       setLoading(true);
       console.log('Admin dashboard: Fetching book stats...');
+
+      // Add a delay before fetching stats to ensure authentication is properly established
+      await new Promise(resolve => setTimeout(resolve, 500));
+
       const response = await dashboardService.getDashboardStats();
       console.log('Admin dashboard: Response received:', response);
 
@@ -70,11 +74,33 @@ export default function AdminDashboard() {
         console.log('Admin dashboard: State updated with new stats');
       } else {
         console.error('Failed to fetch dashboard stats:', response.message);
-        toast.error('Failed to load dashboard statistics');
+
+        // Check if it's a permission error
+        if (response.message?.includes('permission') || response.message?.includes('Authentication required')) {
+          toast.error('Permission denied. Please log out and log in again as an admin user.');
+
+          // Redirect to home page after a short delay
+          setTimeout(() => {
+            router.push('/');
+          }, 2000);
+        } else {
+          toast.error('Failed to load dashboard statistics');
+        }
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error fetching dashboard stats:', error);
-      toast.error('An error occurred while loading dashboard statistics');
+
+      // Check if it's a permission error
+      if (error.message?.includes('permission') || error.message?.includes('Authentication required')) {
+        toast.error('Permission denied. Please log out and log in again as an admin user.');
+
+        // Redirect to home page after a short delay
+        setTimeout(() => {
+          router.push('/');
+        }, 2000);
+      } else {
+        toast.error('An error occurred while loading dashboard statistics');
+      }
     } finally {
       setLoading(false);
     }

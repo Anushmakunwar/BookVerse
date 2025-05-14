@@ -2,6 +2,7 @@ import { createContext, useContext, ReactNode, useState, useEffect } from 'react
 import { useRouter } from 'next/navigation';
 import { authService } from '@/services/api';
 import toast from 'react-hot-toast';
+import { useUI } from '@/hooks/useStore';
 import {
   useCurrentUser,
   useLogin as useLoginMutation,
@@ -33,6 +34,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+  const { showGlobalLoading, hideGlobalLoading } = useUI();
 
   useEffect(() => {
     // Check if user is logged in
@@ -159,6 +161,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = async (email: string, password: string): Promise<boolean> => {
     try {
       setLoading(true);
+      // Show global loading overlay
+      showGlobalLoading('Logging in...');
+
       if (process.env.NODE_ENV === 'development') {
         console.log('Attempting login with email:', email);
       }
@@ -185,6 +190,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
           toast.success('Login successful');
 
+          // Update loading message based on role
+          if (userResponse.user.role === 'Admin') {
+            showGlobalLoading('Preparing admin dashboard...');
+          } else if (userResponse.user.role === 'Staff') {
+            showGlobalLoading('Preparing staff dashboard...');
+          }
+
+          // Add a small delay to ensure the loading message is visible
+          await new Promise(resolve => setTimeout(resolve, 500));
+
           // Check user role for appropriate redirect
           if (userResponse.user.role === 'Admin') {
             // Admin users always go to admin dashboard, regardless of redirect URL
@@ -192,12 +207,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
               console.log('Admin user detected, redirecting to admin dashboard');
             }
             router.push('/admin');
+
+            // Keep the loading overlay visible for a bit longer to prevent flickering
+            // The loading overlay will be hidden after the admin page is loaded
+            setTimeout(() => {
+              hideGlobalLoading();
+            }, 1000);
           } else if (userResponse.user.role === 'Staff') {
             // Staff users always go to staff dashboard, regardless of redirect URL
             if (process.env.NODE_ENV === 'development') {
               console.log('Staff user detected, redirecting to staff dashboard');
             }
             router.push('/staff');
+
+            // Keep the loading overlay visible for a bit longer
+            setTimeout(() => {
+              hideGlobalLoading();
+            }, 1000);
           } else {
             // For regular members, check for redirect URL
             const urlParams = new URLSearchParams(window.location.search);
@@ -225,21 +251,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
               }
               router.push('/');
             }
+
+            // Hide loading overlay for regular users after a short delay
+            setTimeout(() => {
+              hideGlobalLoading();
+            }, 500);
           }
 
           return true;
         } else {
           console.warn('Failed to get user details after login');
           toast.error('Login successful but failed to get user details');
+          hideGlobalLoading();
         }
       } else {
         toast.error(response.message || 'Login failed');
+        hideGlobalLoading();
       }
 
       return false;
     } catch (error) {
       console.error('Login error:', error);
       toast.error('Login failed. Please try again.');
+      hideGlobalLoading();
       return false;
     } finally {
       setLoading(false);

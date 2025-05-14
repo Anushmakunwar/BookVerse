@@ -10,6 +10,8 @@ export interface UIState {
     isSearchOpen: boolean;
     theme: 'light' | 'dark' | 'system';
     notifications: Notification[];
+    isGlobalLoading: boolean;
+    loadingMessage: string;
   };
 }
 
@@ -34,6 +36,8 @@ export interface UIActions {
   addNotification: (notification: Omit<Notification, 'id'>) => void;
   removeNotification: (id: string) => void;
   clearNotifications: () => void;
+  showGlobalLoading: (message?: string) => void;
+  hideGlobalLoading: () => void;
 }
 
 /**
@@ -46,6 +50,8 @@ const initialState: UIState = {
     isSearchOpen: false,
     theme: 'light',
     notifications: [],
+    isGlobalLoading: false,
+    loadingMessage: 'Loading...',
   },
 };
 
@@ -174,6 +180,31 @@ export const createUISlice: StateCreator<
       ui: {
         ...state.ui,
         notifications: [],
+      },
+    }));
+  },
+
+  /**
+   * Show global loading overlay
+   */
+  showGlobalLoading: (message = 'Loading...') => {
+    set((state) => ({
+      ui: {
+        ...state.ui,
+        isGlobalLoading: true,
+        loadingMessage: message,
+      },
+    }));
+  },
+
+  /**
+   * Hide global loading overlay
+   */
+  hideGlobalLoading: () => {
+    set((state) => ({
+      ui: {
+        ...state.ui,
+        isGlobalLoading: false,
       },
     }));
   },

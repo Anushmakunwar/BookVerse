@@ -11,6 +11,7 @@ import { NotificationProvider } from '@/context/NotificationContext';
 import Layout from './Layout';
 import { queryClient } from '@/lib/react-query';
 import { usePathname } from 'next/navigation';
+import GlobalLoadingOverlay from './ui/GlobalLoadingOverlay';
 
 interface ProvidersProps {
   children: React.ReactNode;
@@ -42,12 +43,14 @@ const Providers: React.FC<ProvidersProps> = ({ children }) => {
                 <>
                   {children}
                   <Toaster position="top-right" />
+                  <GlobalLoadingOverlay />
                 </>
               ) : (
                 // Wrap regular pages with Layout
                 <>
                   <Layout>{children}</Layout>
                   <Toaster position="top-right" />
+                  <GlobalLoadingOverlay />
                 </>
               )}
             </NotificationProvider>

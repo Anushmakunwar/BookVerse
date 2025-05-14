@@ -4,6 +4,7 @@ import { User } from '@/lib/api/types';
 import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import { routes } from '@/lib/routes';
+import { useState } from 'react';
 
 /**
  * Query keys for authentication
@@ -102,8 +103,11 @@ export const useLogin = () => {
 
     onSuccess: async (data) => {
       if (data.success) {
-        // Add a small delay to ensure cookies are properly set
-        await new Promise(resolve => setTimeout(resolve, 300));
+        // Clear all existing queries to prevent stale data
+        queryClient.clear();
+
+        // Add a delay to ensure cookies are properly set
+        await new Promise(resolve => setTimeout(resolve, 500));
 
         // Invalidate the user query to fetch fresh user data
         await queryClient.invalidateQueries({ queryKey: authKeys.user() });
@@ -120,11 +124,16 @@ export const useLogin = () => {
 
           toast.success('Login successful');
 
+          // Add a delay before redirecting to ensure all state is updated
+          await new Promise(resolve => setTimeout(resolve, 500));
+
           // Check if user is admin
           if (userResponse.user.role === 'Admin') {
             // Admin users always go to admin dashboard, regardless of redirect URL
             console.log('Admin user detected, redirecting to admin dashboard');
-            router.push(routes.admin.dashboard);
+
+            // Use window.location for a full page reload to ensure clean state
+            window.location.href = routes.admin.dashboard;
           } else {
             // For non-admin users, check for redirect URL
             const urlParams = new URLSearchParams(window.location.search);
@@ -175,10 +184,16 @@ export const useLogout = () => {
       // Clear all queries from cache
       queryClient.invalidateQueries({ queryKey: authKeys.user() });
 
+      // Clear all other query cache to prevent stale data
+      queryClient.clear();
+
+      // Remove user from localStorage
+      localStorage.removeItem('bookstore_user');
+
       toast.success('Logged out successfully');
 
-      // Add a small delay before redirecting
-      await new Promise(resolve => setTimeout(resolve, 300));
+      // Add a longer delay before redirecting to ensure cookies are cleared
+      await new Promise(resolve => setTimeout(resolve, 1000));
 
       // Redirect to home page
       router.push(routes.home);
@@ -189,15 +204,90 @@ export const useLogout = () => {
 
       // Even if the API call fails, we'll still log the user out locally
       queryClient.setQueryData(authKeys.user(), { success: false, user: null });
+
+      // Clear all query cache to prevent stale data
+      queryClient.clear();
+
+      // Remove user from localStorage
       localStorage.removeItem('bookstore_user');
 
       toast.success('Logged out successfully');
 
-      // Add a small delay before redirecting
-      await new Promise(resolve => setTimeout(resolve, 300));
+      // Add a longer delay before redirecting to ensure cookies are cleared
+      await new Promise(resolve => setTimeout(resolve, 1000));
 
-      // Redirect to home page
-      router.push(routes.home);
+      // Redirect to home page and force a full page reload to clear any remaining state
+      window.location.href = routes.home;
+    },
+  });
+};
+
+/**
+ * Hook to request a password reset OTP
+ */
+export const useForgotPassword = () => {
+  const router = useRouter();
+
+  return useMutation({
+    mutationFn: (email: string) => authService.forgotPassword(email),
+
+    onSuccess: async (data) => {
+      if (data.success) {
+        toast.success(data.message || 'OTP sent successfully');
+
+        // Add a small delay before redirecting
+        await new Promise(resolve => setTimeout(resolve, 300));
+
+        // Redirect to reset password page with email in query params
+        router.push(`${routes.auth.resetPassword}?email=${encodeURIComponent(email)}`);
+      } else {
+        toast.error(data.message || 'Failed to send OTP');
+      }
+    },
+
+    onError: (error: any) => {
+      console.error('Forgot password error:', error);
+      toast.error(error.message || 'An error occurred. Please try again.');
+    },
+  });
+};
+
+/**
+ * Hook to reset password with OTP
+ */
+export const useResetPasswordWithOTP = () => {
+  const router = useRouter();
+
+  return useMutation({
+    mutationFn: ({
+      email,
+      otp,
+      newPassword,
+      confirmPassword,
+    }: {
+      email: string;
+      otp: string;
+      newPassword: string;
+      confirmPassword: string;
+    }) => authService.resetPasswordWithOTP(email, otp, newPassword, confirmPassword),
+
+    onSuccess: async (data) => {
+      if (data.success) {
+        toast.success(data.message || 'Password reset successful');
+
+        // Add a small delay before redirecting
+        await new Promise(resolve => setTimeout(resolve, 300));
+
+        // Redirect to login page
+        router.push(routes.auth.login);
+      } else {
+        toast.error(data.message || 'Failed to reset password');
+      }
+    },
+
+    onError: (error: any) => {
+      console.error('Reset password error:', error);
+      toast.error(error.message || 'An error occurred. Please try again.');
     },
   });
 };

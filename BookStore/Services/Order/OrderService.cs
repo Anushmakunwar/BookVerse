@@ -311,6 +311,32 @@ namespace BookStore.Services.Order
                     }
                 }
 
+                // Send order cancellation email
+                try
+                {
+                    if (memberProfile.User != null)
+                    {
+                        var user = memberProfile.User;
+                        var orderDetailsHtml = GenerateOrderCancellationHtml(order);
+
+                        // Send email notification
+                        await _emailService.SendOrderCancellationAsync(
+                            user.Email,
+                            user.FullName,
+                            order.ClaimCode,
+                            orderDetailsHtml
+                        );
+
+                        _logger.LogInformation("Order cancellation email sent to {Email} for order {OrderId}",
+                            user.Email, order.Id);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Log the error but don't fail the order cancellation
+                    _logger.LogError(ex, "Failed to send order cancellation email for order {OrderId}", order.Id);
+                }
+
                 return Result<bool>.SuccessResult(true, "Order cancelled successfully");
             }
             catch (Exception ex)
@@ -372,6 +398,32 @@ namespace BookStore.Services.Order
 
                 // Map to DTO
                 var orderDto = _mapper.Map<OrderDTO>(updatedOrder);
+
+                // Send order processed email notification
+                try
+                {
+                    if (updatedOrder.MemberProfile?.User != null)
+                    {
+                        var user = updatedOrder.MemberProfile.User;
+                        var orderDetailsHtml = GenerateProcessedOrderDetailsHtml(updatedOrder);
+
+                        // Send email notification
+                        await _emailService.SendOrderProcessedAsync(
+                            user.Email,
+                            user.FullName,
+                            updatedOrder.ClaimCode,
+                            orderDetailsHtml
+                        );
+
+                        _logger.LogInformation("Order processed email sent to {Email} for order {OrderId}",
+                            user.Email, updatedOrder.Id);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Log the error but don't fail the order processing
+                    _logger.LogError(ex, "Failed to send order processed email for order {OrderId}", updatedOrder.Id);
+                }
 
                 return Result<OrderDTO>.SuccessResult(orderDto, "Order processed successfully");
             }
@@ -531,6 +583,147 @@ namespace BookStore.Services.Order
                     </tr>
                 </tbody>
             </table>
+            ");
+
+            return sb.ToString();
+        }
+
+        private string GenerateProcessedOrderDetailsHtml(Entities.Order order)
+        {
+            var sb = new System.Text.StringBuilder();
+
+            // Start the table
+            sb.Append(@"
+                <table style='width: 100%; border-collapse: collapse; margin-bottom: 20px;'>
+                    <thead>
+                        <tr style='background-color: #f1f2f6;'>
+                            <th style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd;'>Book</th>
+                            <th style='padding: 10px; text-align: right; border-bottom: 1px solid #ddd;'>Price</th>
+                            <th style='padding: 10px; text-align: center; border-bottom: 1px solid #ddd;'>Quantity</th>
+                            <th style='padding: 10px; text-align: right; border-bottom: 1px solid #ddd;'>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            ");
+
+            // Add each item
+            foreach (var item in order.Items)
+            {
+                sb.Append($@"
+                    <tr>
+                        <td style='padding: 10px; border-bottom: 1px solid #ddd;'>{item.Book?.Title ?? "Unknown"} by {item.Book?.Author ?? "Unknown"}</td>
+                        <td style='padding: 10px; text-align: right; border-bottom: 1px solid #ddd;'>${item.Book?.Price:F2 ?? 0:F2}</td>
+                        <td style='padding: 10px; text-align: center; border-bottom: 1px solid #ddd;'>{item.Quantity}</td>
+                        <td style='padding: 10px; text-align: right; border-bottom: 1px solid #ddd;'>${(item.Book?.Price ?? 0) * item.Quantity:F2}</td>
+                    </tr>
+                ");
+            }
+
+            // Add subtotal
+            sb.Append($@"
+                    <tr>
+                        <td colspan='3' style='padding: 10px; text-align: right; border-bottom: 1px solid #ddd;'><strong>Subtotal:</strong></td>
+                        <td style='padding: 10px; text-align: right; border-bottom: 1px solid #ddd;'>${order.Subtotal:F2}</td>
+                    </tr>
+            ");
+
+            // Add discount if applicable
+            if (order.DiscountPercentage > 0)
+            {
+                var discountAmount = order.Subtotal * order.DiscountPercentage;
+                sb.Append($@"
+                    <tr>
+                        <td colspan='3' style='padding: 10px; text-align: right; border-bottom: 1px solid #ddd;'><strong>Discount ({order.DiscountPercentage:P0}):</strong></td>
+                        <td style='padding: 10px; text-align: right; border-bottom: 1px solid #ddd;'>-${discountAmount:F2}</td>
+                    </tr>
+                ");
+            }
+
+            // Add total
+            sb.Append($@"
+                    <tr>
+                        <td colspan='3' style='padding: 10px; text-align: right; border-bottom: 1px solid #ddd;'><strong>Total:</strong></td>
+                        <td style='padding: 10px; text-align: right; border-bottom: 1px solid #ddd;'><strong>${order.TotalAmount:F2}</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div style='margin-top: 20px; padding: 15px; background-color: #e8f5e9; border-radius: 5px;'>
+                <p style='margin: 0; font-weight: bold;'>Your order has been processed and is ready for pickup!</p>
+                <p style='margin-top: 10px;'>Order Date: {order.OrderDate:MMMM dd, yyyy}</p>
+                <p>Processing Date: {DateTime.UtcNow:MMMM dd, yyyy}</p>
+            </div>
+            ");
+
+            return sb.ToString();
+        }
+
+        private string GenerateOrderCancellationHtml(Entities.Order order)
+        {
+            var sb = new System.Text.StringBuilder();
+
+            // Start the table
+            sb.Append(@"
+                <table style='width: 100%; border-collapse: collapse; margin-bottom: 20px;'>
+                    <thead>
+                        <tr style='background-color: #f1f2f6;'>
+                            <th style='padding: 10px; text-align: left; border-bottom: 1px solid #ddd;'>Book</th>
+                            <th style='padding: 10px; text-align: right; border-bottom: 1px solid #ddd;'>Price</th>
+                            <th style='padding: 10px; text-align: center; border-bottom: 1px solid #ddd;'>Quantity</th>
+                            <th style='padding: 10px; text-align: right; border-bottom: 1px solid #ddd;'>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            ");
+
+            // Add each item
+            foreach (var item in order.Items)
+            {
+                sb.Append($@"
+                    <tr>
+                        <td style='padding: 10px; border-bottom: 1px solid #ddd;'>{item.Book?.Title ?? "Unknown"} by {item.Book?.Author ?? "Unknown"}</td>
+                        <td style='padding: 10px; text-align: right; border-bottom: 1px solid #ddd;'>${item.Book?.Price:F2 ?? 0:F2}</td>
+                        <td style='padding: 10px; text-align: center; border-bottom: 1px solid #ddd;'>{item.Quantity}</td>
+                        <td style='padding: 10px; text-align: right; border-bottom: 1px solid #ddd;'>${(item.Book?.Price ?? 0) * item.Quantity:F2}</td>
+                    </tr>
+                ");
+            }
+
+            // Add subtotal
+            sb.Append($@"
+                    <tr>
+                        <td colspan='3' style='padding: 10px; text-align: right; border-bottom: 1px solid #ddd;'><strong>Subtotal:</strong></td>
+                        <td style='padding: 10px; text-align: right; border-bottom: 1px solid #ddd;'>${order.Subtotal:F2}</td>
+                    </tr>
+            ");
+
+            // Add discount if applicable
+            if (order.DiscountPercentage > 0)
+            {
+                var discountAmount = order.Subtotal * order.DiscountPercentage;
+                sb.Append($@"
+                    <tr>
+                        <td colspan='3' style='padding: 10px; text-align: right; border-bottom: 1px solid #ddd;'><strong>Discount ({order.DiscountPercentage:P0}):</strong></td>
+                        <td style='padding: 10px; text-align: right; border-bottom: 1px solid #ddd;'>-${discountAmount:F2}</td>
+                    </tr>
+                ");
+            }
+
+            // Add total
+            sb.Append($@"
+                    <tr>
+                        <td colspan='3' style='padding: 10px; text-align: right; border-bottom: 1px solid #ddd;'><strong>Total:</strong></td>
+                        <td style='padding: 10px; text-align: right; border-bottom: 1px solid #ddd;'><strong>${order.TotalAmount:F2}</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div style='margin-top: 20px; padding: 15px; background-color: #ffebee; border-radius: 5px;'>
+                <p style='margin: 0; font-weight: bold; color: #c62828;'>Your order has been cancelled</p>
+                <p style='margin-top: 10px;'>Order Date: {order.OrderDate:MMMM dd, yyyy}</p>
+                <p>Cancellation Date: {DateTime.UtcNow:MMMM dd, yyyy}</p>
+                <p>The items in your order have been returned to inventory. If you have any questions about this cancellation, please contact our customer service.</p>
+            </div>
             ");
 
             return sb.ToString();

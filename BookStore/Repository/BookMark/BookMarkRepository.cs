@@ -18,8 +18,8 @@ public class BookmarkRepository : IBookMarkRepository
     {
         try
         {
-            // Use raw SQL to avoid Entity Framework trying to map CreatedAt
-            var sql = @"SELECT b.""Id"" as Id, b.""BookId"" as BookId, b.""MemberProfileId"" as MemberProfileId
+            // Use raw SQL to get bookmark data including CreatedAt
+            var sql = @"SELECT b.""Id"" as Id, b.""BookId"" as BookId, b.""MemberProfileId"" as MemberProfileId, b.""CreatedAt"" as CreatedAt
                        FROM ""Bookmarks"" b
                        WHERE b.""Id"" = @bookmarkId";
 
@@ -41,7 +41,8 @@ public class BookmarkRepository : IBookMarkRepository
                         {
                             Id = result.GetInt32(0),
                             BookId = result.GetInt32(1),
-                            MemberProfileId = result.GetInt32(2)
+                            MemberProfileId = result.GetInt32(2),
+                            CreatedAt = !result.IsDBNull(3) ? result.GetDateTime(3) : (DateTime?)null
                         };
                     }
                 }
@@ -132,14 +133,15 @@ public class BookmarkRepository : IBookMarkRepository
                 return;
             }
 
-            // Create SQL command to insert bookmark without specifying CreatedAt
-            var insertSql = "INSERT INTO \"Bookmarks\" (\"MemberProfileId\", \"BookId\") VALUES (@userId, @bookId)";
+            // Create SQL command to insert bookmark with CreatedAt
+            var insertSql = "INSERT INTO \"Bookmarks\" (\"MemberProfileId\", \"BookId\", \"CreatedAt\") VALUES (@userId, @bookId, @createdAt)";
 
             using (var command = _context.Database.GetDbConnection().CreateCommand())
             {
                 command.CommandText = insertSql;
                 command.Parameters.Add(new Npgsql.NpgsqlParameter("@userId", userId));
                 command.Parameters.Add(new Npgsql.NpgsqlParameter("@bookId", bookId));
+                command.Parameters.Add(new Npgsql.NpgsqlParameter("@createdAt", DateTime.UtcNow));
 
                 if (command.Connection.State != System.Data.ConnectionState.Open)
                     await command.Connection.OpenAsync();
@@ -178,7 +180,7 @@ public class BookmarkRepository : IBookMarkRepository
                         BookLanguage = book.Language,
                         BookFormat = book.Format,
                         BookPublisher = book.Publisher,
-                        CreatedAt = DateTime.UtcNow // Just use current time
+                        CreatedAt = bookmark.CreatedAt ?? DateTime.UtcNow // Use actual CreatedAt if available
                     }
                 )
                 .ToListAsync();
@@ -194,7 +196,8 @@ public class BookmarkRepository : IBookMarkRepository
                        bk.""Title"" as BookTitle, bk.""Author"" as BookAuthor, bk.""Price"" as BookPrice,
                        bk.""CoverImage"" as BookCoverImage, bk.""Description"" as BookDescription,
                        bk.""Genre"" as BookGenre, bk.""Language"" as BookLanguage,
-                       bk.""Format"" as BookFormat, bk.""Publisher"" as BookPublisher
+                       bk.""Format"" as BookFormat, bk.""Publisher"" as BookPublisher,
+                       b.""CreatedAt"" as CreatedAt
                        FROM ""Bookmarks"" b
                        INNER JOIN ""Books"" bk ON b.""BookId"" = bk.""Id""
                        WHERE b.""MemberProfileId"" = @userId";
@@ -227,7 +230,7 @@ public class BookmarkRepository : IBookMarkRepository
                                 BookLanguage = !result.IsDBNull(8) ? result.GetString(8) : string.Empty,
                                 BookFormat = !result.IsDBNull(9) ? result.GetString(9) : string.Empty,
                                 BookPublisher = !result.IsDBNull(10) ? result.GetString(10) : string.Empty,
-                                CreatedAt = DateTime.UtcNow // Just use current time
+                                CreatedAt = !result.IsDBNull(11) ? result.GetDateTime(11) : DateTime.UtcNow // Use actual CreatedAt if available
                             });
                         }
                     }

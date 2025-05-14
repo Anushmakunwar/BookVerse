@@ -1,3 +1,4 @@
+using BookStore.DTOs.Auth;
 using BookStore.DTOs.User;
 using BookStore.Entities;
 using BookStore.Services.User;
@@ -214,6 +215,97 @@ namespace BookStore.Controllers
         public IActionResult AccessDenied()
         {
             return StatusCode(StatusCodes.Status403Forbidden, new { success = false, message = "Access denied. You do not have permission to access this resource." });
+        }
+
+        [HttpGet("test-forgot-password")]
+        public IActionResult TestForgotPassword()
+        {
+            return Ok(new { success = true, message = "Forgot password endpoint is working" });
+        }
+
+        [HttpPost("forgot-password")]
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequestDTO model)
+        {
+            try
+            {
+                // Log the entire request for debugging
+                _logger.LogInformation("Forgot password request received: {@Model}", model);
+
+                // Validate model
+                if (!ModelState.IsValid)
+                {
+                    _logger.LogWarning("Invalid model state: {@ModelState}", ModelState);
+                    return BadRequest(new { success = false, errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage) });
+                }
+
+                if (model == null)
+                {
+                    _logger.LogWarning("Model is null");
+                    return BadRequest(new { success = false, message = "Request body is required" });
+                }
+
+                if (string.IsNullOrEmpty(model.Email))
+                {
+                    _logger.LogWarning("Email is null or empty");
+                    return BadRequest(new { success = false, message = "Email is required" });
+                }
+
+                _logger.LogInformation("Forgot password request for email: {Email}", model.Email);
+
+                var result = await _authService.ForgotPasswordAsync(model);
+
+                if (!result.Success)
+                {
+                    _logger.LogWarning("Forgot password failed: {Message}", result.Message);
+                    return BadRequest(new { success = false, message = result.Message });
+                }
+
+                _logger.LogInformation("Forgot password request processed for email: {Email}", model.Email);
+
+                // Always return success to prevent email enumeration attacks
+                return Ok(new { success = true, message = "If your email is registered, you will receive an OTP shortly" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception in forgot password: {Message}", ex.Message);
+
+                // Return error response
+                return BadRequest(new { success = false, message = "An error occurred while processing your request: " + ex.Message });
+            }
+        }
+
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordWithOTPDTO model)
+        {
+            try
+            {
+                _logger.LogInformation("Reset password request for email: {Email}", model.Email);
+
+                // Validate model
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(new { success = false, errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage) });
+                }
+
+                var result = await _authService.ResetPasswordWithOTPAsync(model);
+
+                if (!result.Success)
+                {
+                    _logger.LogWarning("Reset password failed: {Message}", result.Message);
+                    return BadRequest(new { success = false, message = result.Message });
+                }
+
+                _logger.LogInformation("Password reset successful for email: {Email}", model.Email);
+
+                return Ok(new { success = true, message = "Password reset successful" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception in reset password: {Message}", ex.Message);
+
+                // Return error response
+                return BadRequest(new { success = false, message = "An error occurred while processing your request" });
+            }
         }
     }
 }

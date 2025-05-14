@@ -66,6 +66,8 @@ export const useUI = () => {
   const addNotification = useZustandStore((state) => state.addNotification);
   const removeNotification = useZustandStore((state) => state.removeNotification);
   const clearNotifications = useZustandStore((state) => state.clearNotifications);
+  const showGlobalLoading = useZustandStore((state) => state.showGlobalLoading);
+  const hideGlobalLoading = useZustandStore((state) => state.hideGlobalLoading);
 
   return {
     ui,
@@ -76,5 +78,7 @@ export const useUI = () => {
     addNotification,
     removeNotification,
     clearNotifications,
+    showGlobalLoading,
+    hideGlobalLoading,
   };
 };

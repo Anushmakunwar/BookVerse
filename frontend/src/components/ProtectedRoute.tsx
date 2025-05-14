@@ -12,6 +12,7 @@ interface ProtectedRouteProps {
 export default function ProtectedRoute({ children, requiredRole, adminOnly, staffOnly }: ProtectedRouteProps) {
   // Determine what to pass to useAuthorization based on props
   let authParam: string | boolean | undefined;
+  const [showLoading, setShowLoading] = React.useState(true);
 
   if (adminOnly === true) {
     authParam = true; // true means Admin only
@@ -23,7 +24,19 @@ export default function ProtectedRoute({ children, requiredRole, adminOnly, staf
 
   const { isAuthorized, isLoading } = useAuthorization(authParam);
 
-  if (isLoading) {
+  // Add a delay before showing content to ensure authentication is properly established
+  React.useEffect(() => {
+    if (!isLoading && isAuthorized) {
+      // Add a delay before showing the content to ensure all data is loaded
+      const timer = setTimeout(() => {
+        setShowLoading(false);
+      }, 500);
+
+      return () => clearTimeout(timer);
+    }
+  }, [isLoading, isAuthorized]);
+
+  if (isLoading || showLoading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh]">
         <FaSpinner className="animate-spin text-indigo-600 text-4xl mb-4" />

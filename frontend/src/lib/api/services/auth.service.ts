@@ -1,5 +1,5 @@
 import { apiClient } from '../client';
-import { AuthResponse, User } from '../types';
+import { AuthResponse, User, ApiResponse } from '../types';
 
 /**
  * Authentication service for handling user authentication
@@ -23,7 +23,7 @@ export const authService = {
         email,
         password,
       });
-      
+
       return {
         success: true,
         message: 'Registration successful',
@@ -48,7 +48,7 @@ export const authService = {
     try {
       console.log('Attempting login with credentials:', { email });
       const response = await apiClient.post('/Auth/login', { email, password });
-      
+
       // Check for cookies in the response headers
       const cookies = document.cookie;
       console.log('Cookies after login:', cookies);
@@ -81,7 +81,7 @@ export const authService = {
   logout: async (): Promise<AuthResponse> => {
     try {
       const response = await apiClient.post('/Auth/logout');
-      
+
       return {
         success: true,
         message: 'Logout successful',
@@ -146,6 +146,65 @@ export const authService = {
         success: false,
         message: error.message || 'Failed to get current user',
         user: undefined,
+      };
+    }
+  },
+
+  /**
+   * Request a password reset OTP
+   * @param email - User's email address
+   * @returns Promise with the result
+   */
+  forgotPassword: async (email: string): Promise<ApiResponse> => {
+    try {
+      // Use capital 'E' for Email to match the C# DTO property name
+      const response = await apiClient.post('/Auth/forgot-password', { Email: email });
+
+      return {
+        success: true,
+        message: response.data.message || 'If your email is registered, you will receive an OTP shortly',
+      };
+    } catch (error: any) {
+      console.error('Forgot password error:', error);
+      return {
+        success: false,
+        message: error.response?.data?.message || error.message || 'Failed to process request',
+      };
+    }
+  },
+
+  /**
+   * Reset password using OTP
+   * @param email - User's email
+   * @param otp - One-time password
+   * @param newPassword - New password
+   * @param confirmPassword - Confirm new password
+   * @returns Promise with the result
+   */
+  resetPasswordWithOTP: async (
+    email: string,
+    otp: string,
+    newPassword: string,
+    confirmPassword: string
+  ): Promise<ApiResponse> => {
+    try {
+      // Use capital letters for property names to match the C# DTO property names
+      const response = await apiClient.post('/Auth/reset-password', {
+        Email: email,
+        OTP: otp,
+        NewPassword: newPassword,
+        ConfirmPassword: confirmPassword,
+      });
+
+      return {
+        success: true,
+        message: response.data.message || 'Password reset successful',
+      };
+    } catch (error: any) {
+      console.error('Reset password error:', error);
+      return {
+        success: false,
+        message: error.response?.data?.message || error.message || 'Failed to reset password',
       };
     }
   },

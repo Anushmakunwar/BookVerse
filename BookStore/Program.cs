@@ -72,6 +72,9 @@ async Task Main(string[] args)
     // Add Email Service
     builder.Services.AddScoped<IEmailService, EmailService>();
 
+    // Add OTP Service
+    builder.Services.AddScoped<BookStore.Services.OTP.IOTPService, BookStore.Services.OTP.OTPService>();
+
     // Add Cookie Authentication
     builder.Services.AddCookieAuthentication();
 
